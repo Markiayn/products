@@ -18,7 +18,7 @@ import org.hibernate.cfg.Configuration;
 
 @Entity
 @Table(name = "factories")
-public class factories_model {
+public class Factories {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -36,9 +36,9 @@ public class factories_model {
     private LocalDate date_made;
 
     // Конструктори, гетери та сетери
-    public factories_model() {}
+    public Factories() {}
 
-    public factories_model(String name, int produced, int sold, LocalDate date_made) {
+    public Factories(String name, int produced, int sold, LocalDate date_made) {
         this.name = name;
         this.produced = produced;
         this.sold = sold;
@@ -103,8 +103,8 @@ public class factories_model {
 
         try {
             tx = session.beginTransaction();
-            factories_model factories_model = new factories_model(name, produced, sold, date_made);
-            factories_modelID = (Integer) session.save(factories_model);
+            Factories Factories = new Factories(name, produced, sold, date_made);
+            factories_modelID = (Integer) session.save(Factories);
             tx.commit();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
@@ -133,14 +133,14 @@ public class factories_model {
 
         try {
             tx = session.beginTransaction();
-            List<factories_model> factoriesList = session.createQuery("FROM factories_model", factories_model.class).list();
+            List<Factories> factoriesList = session.createQuery("FROM Factories", Factories.class).list();
             for (Iterator iterator = factoriesList.iterator(); iterator.hasNext();){
-                factories_model employee = (factories_model) iterator.next();
-                System.out.print("| " + employee.getId());
-                System.out.print(" | Factory name: " + employee.getName());
-                System.out.print(" | Produced: " + employee.getProduced());
-                System.out.print(" | Sold: " + employee.getSold());
-                System.out.println(" | Date made: " + employee.getDate_made());
+                Factories factories = (Factories) iterator.next();
+                System.out.print("| " + factories.getId());
+                System.out.print(" | Factory name: " + factories.getName());
+                System.out.print(" | Produced: " + factories.getProduced());
+                System.out.print(" | Sold: " + factories.getSold());
+                System.out.println(" | Date made: " + factories.getDate_made());
             }
             tx.commit();
         } catch (HibernateException e) {
@@ -167,8 +167,8 @@ public class factories_model {
 
         try {
             tx = session.beginTransaction();
-            factories_model factories_model = (factories_model)session.get(factories_model.class, id);
-            session.delete(factories_model);
+            Factories Factories = (Factories)session.get(Factories.class, id);
+            session.delete(Factories);
             tx.commit();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
@@ -194,9 +194,9 @@ public class factories_model {
 
         try {
             tx = session.beginTransaction();
-            factories_model factories_model = (factories_model)session.get(factories_model.class, id);
-            factories_model.setName( name );
-            session.update(factories_model);
+            Factories Factories = (Factories)session.get(Factories.class, id);
+            Factories.setName( name );
+            session.update(Factories);
             tx.commit();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
@@ -222,9 +222,9 @@ public class factories_model {
 
         try {
             tx = session.beginTransaction();
-            factories_model factories_model = (factories_model)session.get(factories_model.class, id);
-            factories_model.setProduced( produced );
-            session.update(factories_model);
+            Factories Factories = (Factories)session.get(Factories.class, id);
+            Factories.setProduced( produced );
+            session.update(Factories);
             tx.commit();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
@@ -250,9 +250,9 @@ public class factories_model {
 
         try {
             tx = session.beginTransaction();
-            factories_model factories_model = (factories_model)session.get(factories_model.class, id);
-            factories_model.setSold( sold );
-            session.update(factories_model);
+            Factories Factories = (Factories)session.get(Factories.class, id);
+            Factories.setSold( sold );
+            session.update(Factories);
             tx.commit();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
@@ -278,9 +278,9 @@ public class factories_model {
 
         try {
             tx = session.beginTransaction();
-            factories_model factories_model = (factories_model)session.get(factories_model.class, id);
-            factories_model.setDate_made( date );
-            session.update(factories_model);
+            Factories Factories = (Factories)session.get(Factories.class, id);
+            Factories.setDate_made( date );
+            session.update(Factories);
             tx.commit();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();

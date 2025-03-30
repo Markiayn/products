@@ -3,7 +3,6 @@ package org.example.models;
 import jakarta.persistence.*;
 
 import java.util.List;
-import java.util.Date;
 import java.util.Iterator;
 
 import org.hibernate.HibernateException;
@@ -14,12 +13,10 @@ import org.hibernate.cfg.Configuration;
 
 
 import java.time.LocalDate;
-import java.util.Iterator;
-import java.util.List;
 
 @Entity
 @Table(name = "products")
-public class products_model {
+public class Products {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -44,10 +41,10 @@ public class products_model {
 
 
     // Конструктори, гетери та сетери
-    public products_model() {
+    public Products() {
     }
 
-    public products_model(String product_name,int product_code, float cost_price, float selling_price, LocalDate date_made, int factories_id) {
+    public Products(String product_name, int product_code, float cost_price, float selling_price, LocalDate date_made, int factories_id) {
         this.product_name = product_name;
         this.product_code = product_code;
         this.cost_price = cost_price;
@@ -70,6 +67,14 @@ public class products_model {
 
     public void setProduct_name(String product_name) {
         this.product_name = product_name;
+    }
+
+    public int getProduct_code() {
+        return product_code;
+    }
+
+    public void setProduct_code(int product_code) {
+        this.product_code = product_code;
     }
 
     public void setCost_price(float cost_price) {
@@ -105,7 +110,7 @@ public class products_model {
     }
 
 
-    /* Method to CREATE a factories in the database */
+    /* Method to CREATE a product in the database */
     public Integer addProduct(String product_name,int product_code, float cost_price, float selling_price, LocalDate date_made, int factories_id) {
         SessionFactory factory;
 
@@ -122,8 +127,8 @@ public class products_model {
 
         try {
             tx = session.beginTransaction();
-            products_model products_model = new products_model(product_name, product_code, cost_price, selling_price, date_made, factories_id);
-            product_modelID = (Integer) session.save(products_model);
+            Products Products = new Products(product_name, product_code, cost_price, selling_price, date_made, factories_id);
+            product_modelID = (Integer) session.save(Products);
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
@@ -133,11 +138,9 @@ public class products_model {
         }
         return product_modelID;
     }
-}
 
-
-    /* Method to  READ all the factories */
-    public void listProducts () {
+        /* Method to  READ all the products */
+    public void ListProducts () {
         SessionFactory factory;
 
         try {
@@ -152,14 +155,16 @@ public class products_model {
 
         try {
             tx = session.beginTransaction();
-            List<products_model> productsList = session.createQuery("FROM products_model", products_model.class).list();
+            List<Products> productsList = session.createQuery("FROM Products", Products.class).list();
             for (Iterator iterator = productsList.iterator(); iterator.hasNext();){
-                factories_model employee = (factories_model) iterator.next();
-                System.out.print("| " + employee.getId());
-                System.out.print(" | Factory name: " + employee.getName());
-                System.out.print(" | Produced: " + employee.getProduced());
-                System.out.print(" | Sold: " + employee.getSold());
-                System.out.println(" | Date made: " + employee.getDate_made());
+                Products products = (Products) iterator.next();
+                System.out.print("| " + products.getId());
+                System.out.print(" | Product name: " + products.getProduct_name());
+                System.out.print(" | Product code: " + products.getProduct_code());
+                System.out.print(" | Cost: " + products.getCost_price());
+                System.out.print(" | Selling price: " + products.getSelling_price());
+                System.out.print(" | Factories ID: " + products.getFactories_id());
+                System.out.println(" | Date made: " + products.getDate_made());
             }
             tx.commit();
         } catch (HibernateException e) {
@@ -169,143 +174,154 @@ public class products_model {
             session.close();
         }
     }
-//
-//    /* Method to DELETE a factories from the records */
-//    public void deleteFactory(Integer id){
-//        SessionFactory factory;
-//
-//        try {
-//            factory = new Configuration().configure().buildSessionFactory();
-//        } catch (Throwable ex) {
-//            System.err.println("Failed to create sessionFactory object." + ex);
-//            throw new ExceptionInInitializerError(ex);
-//        }
-//
-//        Session session = factory.openSession();
-//        Transaction tx = null;
-//
-//        try {
-//            tx = session.beginTransaction();
-//            factories_model factories_model = (factories_model)session.get(factories_model.class, id);
-//            session.delete(factories_model);
-//            tx.commit();
-//        } catch (HibernateException e) {
-//            if (tx!=null) tx.rollback();
-//            e.printStackTrace();
-//        } finally {
-//            session.close();
-//        }
-//    }
-//
-//    /* Method to UPDATE "name" for a factory */
-//    public void updateFactoryName(Integer id, String name ){
-//        SessionFactory factory;
-//
-//        try {
-//            factory = new Configuration().configure().buildSessionFactory();
-//        } catch (Throwable ex) {
-//            System.err.println("Failed to create sessionFactory object." + ex);
-//            throw new ExceptionInInitializerError(ex);
-//        }
-//
-//        Session session = factory.openSession();
-//        Transaction tx = null;
-//
-//        try {
-//            tx = session.beginTransaction();
-//            factories_model factories_model = (factories_model)session.get(factories_model.class, id);
-//            factories_model.setName( name );
-//            session.update(factories_model);
-//            tx.commit();
-//        } catch (HibernateException e) {
-//            if (tx!=null) tx.rollback();
-//            e.printStackTrace();
-//        } finally {
-//            session.close();
-//        }
-//    }
-//
-//    /* Method to UPDATE "produced" for a factory */
-//    public void updateFactoryProduced(Integer id, Integer produced ){
-//        SessionFactory factory;
-//
-//        try {
-//            factory = new Configuration().configure().buildSessionFactory();
-//        } catch (Throwable ex) {
-//            System.err.println("Failed to create sessionFactory object." + ex);
-//            throw new ExceptionInInitializerError(ex);
-//        }
-//
-//        Session session = factory.openSession();
-//        Transaction tx = null;
-//
-//        try {
-//            tx = session.beginTransaction();
-//            factories_model factories_model = (factories_model)session.get(factories_model.class, id);
-//            factories_model.setProduced( produced );
-//            session.update(factories_model);
-//            tx.commit();
-//        } catch (HibernateException e) {
-//            if (tx!=null) tx.rollback();
-//            e.printStackTrace();
-//        } finally {
-//            session.close();
-//        }
-//    }
-//
-//    /* Method to UPDATE "produced" for a factory */
-//    public void updateFactorySold(Integer id, Integer sold ){
-//        SessionFactory factory;
-//
-//        try {
-//            factory = new Configuration().configure().buildSessionFactory();
-//        } catch (Throwable ex) {
-//            System.err.println("Failed to create sessionFactory object." + ex);
-//            throw new ExceptionInInitializerError(ex);
-//        }
-//
-//        Session session = factory.openSession();
-//        Transaction tx = null;
-//
-//        try {
-//            tx = session.beginTransaction();
-//            factories_model factories_model = (factories_model)session.get(factories_model.class, id);
-//            factories_model.setSold( sold );
-//            session.update(factories_model);
-//            tx.commit();
-//        } catch (HibernateException e) {
-//            if (tx!=null) tx.rollback();
-//            e.printStackTrace();
-//        } finally {
-//            session.close();
-//        }
-//    }
-//
-//    /* Method to UPDATE "date_made" for a factory */
-//    public void updateFactoryDateMade(Integer id, LocalDate date ){
-//        SessionFactory factory;
-//
-//        try {
-//            factory = new Configuration().configure().buildSessionFactory();
-//        } catch (Throwable ex) {
-//            System.err.println("Failed to create sessionFactory object." + ex);
-//            throw new ExceptionInInitializerError(ex);
-//        }
-//
-//        Session session = factory.openSession();
-//        Transaction tx = null;
-//
-//        try {
-//            tx = session.beginTransaction();
-//            factories_model factories_model = (factories_model)session.get(factories_model.class, id);
-//            factories_model.setDate_made( date );
-//            session.update(factories_model);
-//            tx.commit();
-//        } catch (HibernateException e) {
-//            if (tx!=null) tx.rollback();
-//            e.printStackTrace();
-//        } finally {
-//            session.close();
-//        }
-//    }
-//}
+
+
+    /* Method to DELETE a factories from the records */
+    public void deleteProduct(Integer id){
+        SessionFactory factory;
+
+        try {
+            factory = new Configuration().configure().buildSessionFactory();
+        } catch (Throwable ex) {
+            System.err.println("Failed to create sessionFactory object." + ex);
+            throw new ExceptionInInitializerError(ex);
+        }
+
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            Products Products = (Products)session.get(Products.class, id);
+            session.delete(Products);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
+
+
+
+    /* Method to UPDATE product name */
+    public void updateProductName(Integer id, String productName) {
+        SessionFactory factory = new Configuration().configure().buildSessionFactory();
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            Products product = session.get(Products.class, id);
+            product.setProduct_name(productName);
+            session.update(product);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
+
+    /* Method to UPDATE product code */
+    public void updateProductCode(Integer id, int productCode) {
+        SessionFactory factory = new Configuration().configure().buildSessionFactory();
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            Products product = session.get(Products.class, id);
+            product.setProduct_code(productCode);
+            session.update(product);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
+
+    /* Method to UPDATE cost price */
+    public void updateCostPrice(Integer id, float costPrice) {
+        SessionFactory factory = new Configuration().configure().buildSessionFactory();
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            Products product = session.get(Products.class, id);
+            product.setCost_price(costPrice);
+            session.update(product);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
+
+    /* Method to UPDATE selling price */
+    public void updateSellingPrice(Integer id, float sellingPrice) {
+        SessionFactory factory = new Configuration().configure().buildSessionFactory();
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            Products product = session.get(Products.class, id);
+            product.setSelling_price(sellingPrice);
+            session.update(product);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
+
+    /* Method to UPDATE date made */
+    public void updateDateMade(Integer id, LocalDate dateMade) {
+        SessionFactory factory = new Configuration().configure().buildSessionFactory();
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            Products product = session.get(Products.class, id);
+            product.setDate_made(dateMade);
+            session.update(product);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
+
+    /* Method to UPDATE factories ID */
+    public void updateFactoriesId(Integer id, int factoriesId) {
+        SessionFactory factory = new Configuration().configure().buildSessionFactory();
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            Products product = session.get(Products.class, id);
+            product.setFactories_id(factoriesId);
+            session.update(product);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
+}

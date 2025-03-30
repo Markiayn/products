@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE hibernate-configuration PUBLIC
         "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
         <!-- Підключення до бази даних -->
@@ -16,7 +16,21 @@
         <!-- Автоматичне оновлення схеми бази даних -->
         <property name="hibernate.hbm2ddl.auto">update</property>
 
+        <!-- Додати у hibernate.cfg.xml -->
+
+
+        <property name="hibernate.hikari.maximumPoolSize">10</property>
+        <property name="hibernate.hikari.minimumIdle">2</property>
+        <property name="hibernate.hikari.idleTimeout">30000</property>
+        <property name="hibernate.hikari.poolName">MyHikariCP</property>
+        <property name="hibernate.hikari.dataSource.cachePrepStmts">true</property>
+        <property name="hibernate.hikari.dataSource.prepStmtCacheSize">250</property>
+        <property name="hibernate.hikari.dataSource.prepStmtCacheSqlLimit">2048</property>
+
         <!-- Вказуємо класи сутностей -->
-        <mapping class="org.example.models.factories_model"/>
+        <mapping class="org.example.models.Factories"/>
+        <mapping class="org.example.models.Products"/>
+
+
     </session-factory>
 </hibernate-configuration>
