@@ -3,8 +3,8 @@ package org.example.models;
 import jakarta.persistence.*;
 
 import java.util.List;
-import java.util.Date;
 import java.util.Iterator;
+import java.time.LocalDate;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -13,9 +13,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 
-import java.time.LocalDate;
-import java.util.Iterator;
-import java.util.List;
+
+
 
 @Entity
 @Table(name = "factories")
