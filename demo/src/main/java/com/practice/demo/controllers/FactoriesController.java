@@ -1,24 +1,45 @@
 package com.practice.demo.controllers;
 
 import com.practice.demo.models.Factories;
+import com.practice.demo.models.Products;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+import java.time.LocalDate;
+
+@Controller
 @RequestMapping("/factories")
 public class FactoriesController {
 
-    // Створення продукту
+//    // Створення продукту
+//    @PostMapping
+//    public Integer createFactories(@RequestBody Factories factories) {
+//        return factories.addFactory(factories.getName(), factories.getProduced(), factories.getSold(),
+//                factories.getDate_made());
+//    }
+
+
+
     @PostMapping
-    public Integer createFactories(@RequestBody Factories factories) {
-        return factories.addFactory(factories.getName(), factories.getProduced(), factories.getSold(),
-                factories.getDate_made());
+    @ResponseBody
+    public ResponseEntity<Integer> createFactories(@RequestBody Factories factories) {
+        System.out.println(factories);
+        Integer factoryId = factories.addFactory(
+                factories.getName(),
+                factories.getProduced(),
+                factories.getSold(),
+                factories.getDate_made()
+        );
+        return ResponseEntity.ok(factoryId);
     }
 
-    // Отримання всіх продуктів
     @GetMapping
-    public void getAllFactories() {
-        Factories factories = new Factories();
-        factories.ListFactories();
+    public String getFactoriesView(Model model) {
+        model.addAttribute("factories", new Factories());
+        return "forms/factories";
     }
 
 

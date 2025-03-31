@@ -1,11 +1,13 @@
 package com.practice.demo.controllers;
 
 import com.practice.demo.models.Products;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
-@RestController
+@Controller
 @RequestMapping("/products")
 public class ProductsController {
 
@@ -18,11 +20,14 @@ public class ProductsController {
 
     // Отримання всіх продуктів
     @GetMapping
-    public void getAllProducts() {
-//        Products product = new Products();
-//        product.ListProducts();
-
+    public String getProductsView(Model model) {
+        model.addAttribute("products", new Products());
+        return "forms/Products/products";
     }
+
+    //        Products product = new Products();
+//        product.ListProducts();
+//        product.addAttribute("record", new MyEntity()); // Передаємо порожній об'єкт
 
     @GetMapping("/{id}")
     public void getAllProductsByFactoryId(@PathVariable Integer id) {
