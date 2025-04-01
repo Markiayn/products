@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #7F00FF, #E100FF);
+    background: linear-gradient(to right, #6a11cb, #2575fc); /* Градиент изменен под картинку */
     color: white;
     display: flex;
     justify-content: center;
@@ -11,25 +11,50 @@ body {
 
 .container {
     background: rgba(255, 255, 255, 0.2);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    width: 46vw; /* Увеличил ширину, чтобы была видна по бокам */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
 }
 
 h2 {
     text-align: center;
-    margin-bottom: 20px;
+    color: white;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+#product-details {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+    color: black;
+    width: 90%; /* Сделал подложку внутри меньше */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Выравнивание текста по левому краю */
+    position: relative;
+    z-index: 1;
 }
 
 ul {
     list-style-type: none;
     padding: 0;
+    margin: 0;
+    width: 100%;
 }
 
 li {
-    padding: 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    font-size: 18px;
+    text-align: left; /* Выравнивание по левому краю */
+    width: 100%;
 }
 
 li:last-child {
