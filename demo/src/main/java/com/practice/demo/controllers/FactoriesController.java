@@ -26,7 +26,6 @@ public class FactoriesController {
     @PostMapping
     @ResponseBody
     public ResponseEntity<Integer> createFactories(@RequestBody Factories factories) {
-        System.out.println(factories);
         Integer factoryId = factories.addFactory(
                 factories.getName(),
                 factories.getProduced(),

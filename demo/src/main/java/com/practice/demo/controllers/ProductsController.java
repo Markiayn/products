@@ -1,6 +1,7 @@
 package com.practice.demo.controllers;
 
 import com.practice.demo.models.Products;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,18 +12,25 @@ import java.time.LocalDate;
 @RequestMapping("/products")
 public class ProductsController {
 
-    // Створення продукту
     @PostMapping
-    public Integer createProduct(@RequestBody Products product) {
-        return product.addProduct(product.getProduct_name(), product.getProduct_code(), product.getCost_price(),
-                product.getSelling_price(), product.getDate_made(), product.getFactories_id());
+    @ResponseBody
+    public ResponseEntity<Integer> createProducts(@RequestBody Products products) {
+        Integer productsId = products.addProduct(
+                products.getProduct_name(),
+                products.getProduct_code(),
+                products.getCost_price(),
+                products.getSelling_price(),
+                products.getDate_made(),
+                products.getFactories_id()
+        );
+        return ResponseEntity.ok(productsId);
     }
 
     // Отримання всіх продуктів
     @GetMapping
     public String getProductsView(Model model) {
         model.addAttribute("products", new Products());
-        return "forms/Products/products";
+        return "forms/products";
     }
 
     //        Products product = new Products();

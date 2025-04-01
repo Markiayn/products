@@ -1,5 +1,5 @@
-document.getElementById("prductsForm").addEventListener("input", validate);
-document.getElementById("prductsFrom").addEventListener("submit", async function (event) {
+document.getElementById("productsForm").addEventListener("input", validate);
+document.getElementById("productsForm").addEventListener("submit", async function (event) {
 	event.preventDefault(); // Запобігає перезавантаженню сторінки
 
 	console.log("function submit called!");
@@ -26,7 +26,7 @@ document.getElementById("prductsFrom").addEventListener("submit", async function
 
 		if (response.ok) {
 			alert("Factory created successfully!");
-			document.getElementById("prductsFrom").reset();
+			document.getElementById("productsForm").reset();
 			validate(); // Приховуємо кнопку після успішного сабміту
 		} else {
 			alert("Error creating factory.");

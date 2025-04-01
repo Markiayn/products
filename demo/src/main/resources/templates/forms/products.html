@@ -2,12 +2,12 @@
 <html>
 <head>
 <title>Product form</title>
-<link href="style.css" rel="stylesheet"> 
+<link href="forms/products.css" rel="stylesheet">
 </head>
 <body>
 
 <h1>Products form</h1>
-<form oninput="validate()">
+<form id="productsForm" oninput="validate()">
   <label for="product_name">ProductName:</label><br>
   <input type="text" id="product_name" name="product_name"><br>
   <label for="product_code">ProductCode:</label><br>
@@ -22,6 +22,6 @@
   <input type="number" id="factories_id" name="factories_id"><br>
   <button type="submit" id="submitBtn" style="display: none;">Save</button>
   </form>
-  <script src="script.js"></script>
+  <script src="forms/products.js"></script>
   </body>
   </html>
