@@ -205,6 +205,45 @@ public class Factories {
         return firstFactory; // Повертаємо Factories
     }
 
+    public void listFactoryById(Integer id) {
+        SessionFactory factory;
+
+        try {
+            factory = new Configuration().configure().buildSessionFactory();
+        } catch (Throwable ex) {
+            System.err.println("Failed to create sessionFactory object." + ex);
+            throw new ExceptionInInitializerError(ex);
+        }
+
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+
+            // Виконання HQL-запиту для пошуку за ID
+            Factories factoryRecord = session.get(Factories.class, id);
+
+            if (factoryRecord != null) {
+                System.out.print("| " + factoryRecord.getId());
+                System.out.print(" | Factory name: " + factoryRecord.getName());
+                System.out.print(" | Produced: " + factoryRecord.getProduced());
+                System.out.print(" | Sold: " + factoryRecord.getSold());
+                System.out.println(" | Date made: " + factoryRecord.getDate_made());
+            } else {
+                System.out.println("Фабрика з ID " + id + " не знайдена.");
+            }
+
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
+
+
 
     /* Method to DELETE a factories from the records */
     public void deleteFactory(Integer id){

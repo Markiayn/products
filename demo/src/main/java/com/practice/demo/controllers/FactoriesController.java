@@ -3,6 +3,7 @@ package com.practice.demo.controllers;
 import com.practice.demo.models.Factories;
 import com.practice.demo.models.Products;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -60,19 +61,28 @@ public class FactoriesController {
 
 
     // Оновлення продукту за ID
-    @PutMapping("/{id}")
-    public void updateFactories(@PathVariable Integer id, @RequestBody Factories updatedFactories) {
-        updatedFactories.updateFactoryName(id, updatedFactories.getName());
-        updatedFactories.updateFactoryProduced(id, updatedFactories.getProduced());
-        updatedFactories.updateFactorySold(id, updatedFactories.getSold());
-        updatedFactories.updateFactoryDateMade(id, updatedFactories.getDate_made());
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateFactories(@PathVariable Integer id, @RequestBody Factories updatedFactories) {
+        try {
+            updatedFactories.updateFactoryName(id, updatedFactories.getName());
+            updatedFactories.updateFactoryProduced(id, updatedFactories.getProduced());
+            updatedFactories.updateFactorySold(id, updatedFactories.getSold());
+            updatedFactories.updateFactoryDateMade(id, updatedFactories.getDate_made());
+            return ResponseEntity.ok("Factory updated successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update factory");
+        }
     }
-
     // Видалення продукту за ID
-    @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable Integer id) {
-        Factories factories = new Factories();
-        factories.deleteFactory(id);
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity deleteProduct(@PathVariable Integer id) {
+        try {
+            Factories factories = new Factories();
+            factories.deleteFactory(id);
+            return ResponseEntity.ok("Product deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete product");
+        }
     }
 }
 

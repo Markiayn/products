@@ -2,6 +2,7 @@ package com.practice.demo.controllers;
 
 import com.practice.demo.models.Factories;
 import com.practice.demo.models.Products;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -68,21 +69,31 @@ public class ProductsController {
 //    ListProductsAVGCostAndSellinByFactoryId
 
     // Оновлення продукту за ID
-    @PutMapping("/{id}")
-    public void updateProduct(@PathVariable Integer id, @RequestBody Products updatedProduct) {
-        updatedProduct.updateProductName(id, updatedProduct.getProduct_name());
-        updatedProduct.updateProductCode(id, updatedProduct.getProduct_code());
-        updatedProduct.updateCostPrice(id, updatedProduct.getCost_price());
-        updatedProduct.updateSellingPrice(id, updatedProduct.getSelling_price());
-        updatedProduct.updateDateMade(id, updatedProduct.getDate_made());
-        updatedProduct.updateFactoriesId(id, updatedProduct.getFactories_id());
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateFactories(@PathVariable Integer id, @RequestBody Products updatedProducts) {
+        try {
+            updatedProducts.updateProductName(id, updatedProducts.getProduct_name());
+            updatedProducts.updateProductCode(id, updatedProducts.getProduct_code());
+            updatedProducts.updateCostPrice(id, updatedProducts.getCost_price());
+            updatedProducts.updateSellingPrice(id, updatedProducts.getSelling_price());
+            updatedProducts.updateDateMade(id, updatedProducts.getDate_made());
+            updatedProducts.updateFactoriesId(id, updatedProducts.getFactories_id());
+            return ResponseEntity.ok("Factory updated successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update factory");
+        }
     }
 
     // Видалення продукту за ID
-    @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable Integer id) {
-        Products product = new Products();
-        product.deleteProduct(id);
-    }
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable Integer id) {
+        try {
+            Products product = new Products();
+            product.deleteProduct(id);
+            return ResponseEntity.ok("Product deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete product");
+        }
+    };
 }
 
