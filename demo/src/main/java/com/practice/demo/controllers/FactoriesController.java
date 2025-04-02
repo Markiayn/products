@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Controller
 @RequestMapping("/factories")
@@ -35,12 +36,19 @@ public class FactoriesController {
         return ResponseEntity.ok(factoryId);
     }
 
-    @GetMapping
-    public String getFactoriesView(Model model) {
+    @GetMapping("/forms")
+    public String getFactoriesFormView(Model model) {
         model.addAttribute("factories", new Factories());
         return "forms/factories";
     }
 
+    @GetMapping("/index")
+    public String getFactoriesIndexView(Model model) {
+        Factories factories = new Factories();
+        List<Factories> factorieslist = factories.ListFactoriesList();
+        model.addAttribute("factories", factorieslist);
+        return "index/factories";
+    }
 
 
     // Оновлення продукту за ID

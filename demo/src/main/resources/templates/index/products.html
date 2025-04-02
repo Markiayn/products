@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Table product</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/index/products.css">
 </head>
 <body>
     <div class="background">
@@ -15,16 +15,28 @@
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
-                        <th>Produced</th>
-                        <th>Sold</th>
+                        <th>Code</th>
+                        <th>Cost price</th>
+                        <th>Selling pricee</th>
+                        <th>Factories ID</th>
                         <th>Date Made</th>
                     </tr>
                 </thead>
                 <tbody id="table-body">
+                <tr th:each="product : ${products}">
+                    <td th:text="${product.id}"></td>
+                    <td th:text="${product.product_name}"></td>
+                    <td th:text="${product.product_code}"></td>
+                    <td th:text="${product.cost_price}"></td>
+                    <td th:text="${product.selling_price}"></td>
+                    <td th:text="${product.factories_id}"></td>
+                    <td th:text="${product.date_made}"></td>
+                </tr>
+
                 </tbody>
             </table>
         </div>
     </div>
-    <script src="script.js"></script>
+    <script src="/index/products.js"></script>
 </body>
 </html>

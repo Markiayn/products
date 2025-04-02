@@ -156,6 +156,26 @@ public class Factories {
         }
     }
 
+    public List<Factories> ListFactoriesList() {
+        SessionFactory factory = new Configuration().configure().buildSessionFactory();
+        Session session = factory.openSession();
+        Transaction tx = null;
+        List<Factories> factoriesList = null;
+
+        try {
+            tx = session.beginTransaction();
+            factoriesList = session.createQuery("FROM Factories", Factories.class).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return factoriesList;
+    }
+
     /* Method to DELETE a factories from the records */
     public void deleteFactory(Integer id){
         SessionFactory factory;

@@ -178,6 +178,33 @@ public class Products {
         }
     }
 
+    public List<Products> ListProductsList () {
+        SessionFactory factory;
+
+        try {
+            factory = new Configuration().configure().buildSessionFactory();
+        } catch (Throwable ex) {
+            System.err.println("Failed to create sessionFactory object." + ex);
+            throw new ExceptionInInitializerError(ex);
+        }
+
+        Session session = factory.openSession();
+        Transaction tx = null;
+        List<Products> productsList = null;
+
+        try {
+            tx = session.beginTransaction();
+            productsList = session.createQuery("FROM Products", Products.class).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return productsList;
+    }
+
 
     /* Method to DELETE a factories from the records */
     public void deleteProduct(Integer id){

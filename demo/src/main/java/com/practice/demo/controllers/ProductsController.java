@@ -1,5 +1,6 @@
 package com.practice.demo.controllers;
 
+import com.practice.demo.models.Factories;
 import com.practice.demo.models.Products;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -7,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Controller
 @RequestMapping("/products")
@@ -27,10 +29,18 @@ public class ProductsController {
     }
 
     // Отримання всіх продуктів
-    @GetMapping
+    @GetMapping("/forms")
     public String getProductsView(Model model) {
         model.addAttribute("products", new Products());
         return "forms/products";
+    }
+
+    @GetMapping("/index")
+    public String getProductsIndexView(Model model) {
+        Products products = new Products();
+        List<Products> productsList = products.ListProductsList();
+        model.addAttribute("products", productsList);
+        return "index/products";
     }
 
     //        Products product = new Products();
