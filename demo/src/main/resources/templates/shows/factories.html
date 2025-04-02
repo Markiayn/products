@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <link rel="stylesheet" href="/shows/factories.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Product Details</h2>
+        <ul id="product-details">
+            <li><strong>ID:</strong> <span id="product-id" th:text="${factory.id}"></span></li>
+            <li><strong>Name:</strong> <span id="product-name" th:text="${factory.name}"></span></li>
+            <li><strong>Produced:</strong> <span id="product-code" th:text="${factory.produced}"></span></li>
+            <li><strong>Sold:</strong> <span id="cost-price" th:text="${factory.sold}"></span></li>
+            <li><strong>Date Made:</strong> <span id="selling-price" th:text="${factory.date_made}"></span></li>
+        </ul>
+    </div>
+    <script src="/shows/factories.js"></script>
+</body>
+</html>

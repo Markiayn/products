@@ -50,6 +50,14 @@ public class FactoriesController {
         return "index/factories";
     }
 
+    @GetMapping("/shows")
+    public String getFactoiresShowsView(Model model) {
+        Factories factories = new Factories();
+        Factories firstFactory = factories.getFirstFactory();
+        model.addAttribute("factory", firstFactory); // Передаємо продукт, а не рядок
+        return "shows/factories";
+    }
+
 
     // Оновлення продукту за ID
     @PutMapping("/{id}")

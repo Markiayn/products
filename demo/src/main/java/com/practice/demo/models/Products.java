@@ -2,8 +2,7 @@ package com.practice.demo.models;
 
 import jakarta.persistence.*;
 
-import java.util.List;
-import java.util.Iterator;
+import java.util.*;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -204,6 +203,37 @@ public class Products {
         }
         return productsList;
     }
+
+    public Products getFirstProduct() {
+        SessionFactory factory;
+
+        try {
+            factory = new Configuration().configure().buildSessionFactory();
+        } catch (Throwable ex) {
+            System.err.println("Failed to create sessionFactory object." + ex);
+            throw new ExceptionInInitializerError(ex);
+        }
+
+        Session session = factory.openSession();
+        Transaction tx = null;
+        Products firstProduct = null;
+
+        try {
+            tx = session.beginTransaction();
+            firstProduct = session.createQuery("FROM Products", Products.class)
+                    .setMaxResults(1) // Отримуємо тільки перший запис
+                    .uniqueResult();  // Повертає один об'єкт замість списку
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return firstProduct;
+    }
+
+
 
 
     /* Method to DELETE a factories from the records */

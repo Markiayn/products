@@ -176,6 +176,36 @@ public class Factories {
         return factoriesList;
     }
 
+    public Factories getFirstFactory() { // Змінюємо тип повернення
+        SessionFactory factory;
+
+        try {
+            factory = new Configuration().configure().buildSessionFactory();
+        } catch (Throwable ex) {
+            System.err.println("Failed to create sessionFactory object." + ex);
+            throw new ExceptionInInitializerError(ex);
+        }
+
+        Session session = factory.openSession();
+        Transaction tx = null;
+        Factories firstFactory = null; // Міняємо тип змінної
+
+        try {
+            tx = session.beginTransaction();
+            firstFactory = session.createQuery("FROM Factories", Factories.class)
+                    .setMaxResults(1) // Отримуємо тільки перший запис
+                    .uniqueResult();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return firstFactory; // Повертаємо Factories
+    }
+
+
     /* Method to DELETE a factories from the records */
     public void deleteFactory(Integer id){
         SessionFactory factory;

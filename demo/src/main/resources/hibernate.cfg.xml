@@ -30,7 +30,5 @@
         <!-- Вказуємо класи сутностей -->
         <mapping class="com.practice.demo.models.Factories"/>
         <mapping class="com.practice.demo.models.Products"/>
-
-
     </session-factory>
 </hibernate-configuration>

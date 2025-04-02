@@ -43,9 +43,15 @@ public class ProductsController {
         return "index/products";
     }
 
-    //        Products product = new Products();
-//        product.ListProducts();
-//        product.addAttribute("record", new MyEntity()); // Передаємо порожній об'єкт
+    @GetMapping("/shows")
+    public String getProductsShowsView(Model model) {
+        Products products = new Products();
+        Products firstProduct = products.getFirstProduct();
+        model.addAttribute("product", firstProduct); // Передаємо продукт, а не рядок
+        return "shows/products";
+    }
+
+
 
     @GetMapping("/{id}")
     public void getAllProductsByFactoryId(@PathVariable Integer id) {
