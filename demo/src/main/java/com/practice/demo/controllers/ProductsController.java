@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -54,17 +55,32 @@ public class ProductsController {
 
 
 
-    @GetMapping("/{id}")
-    public void getAllProductsByFactoryId(@PathVariable Integer id) {
-        Products product = new Products();
-        product.ListProductsByFactoryId(id);
-    }
+//    @GetMapping("/{id}")
+//    public void getAllProductsByFactoryId(@PathVariable Integer id) {
+//        Products product = new Products();
+//        product.ListProductsByFactoryId(id);
+//    }
 
     @GetMapping("/getAllProductsByFactoryId/{id}")
     public void ListProductsAVGCostAndSellinByFactoryId(@PathVariable Integer id) {
         Products product = new Products();
         product.ListProductsAVGCostAndSellinByFactoryId(id);
     }
+
+    @GetMapping("/{id}")
+    public String getProductsShowsView(@PathVariable Integer id, Model model, RedirectAttributes redirectAttributes) {
+        Products products = new Products();
+        Products product = products.getProductById(id);
+
+        if (product == null) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Фабрика з ID " + id + " не знайдена.");
+            return "redirect:/index"; // Перенаправлення на головну сторінку
+        }
+
+        model.addAttribute("product", product);
+        return "shows/products";
+    }
+
 
 //    ListProductsAVGCostAndSellinByFactoryId
 

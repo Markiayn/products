@@ -9,7 +9,10 @@
 <body>
 <div class="background">
     <div class="table-container">
-        <h2>Table factories</h2>
+        <div class="table-header">
+            <h2>Table factories</h2>
+            <button class="add-btn" onclick="location.href='forms'">Add</button>
+        </div>
         <table>
             <thead>
             <tr>
@@ -23,7 +26,7 @@
             </thead>
             <tbody id="table-body">
             <tr th:each="factory : ${factories}" th:attr="data-id=${factory.id}">
-            <td th:text="${factory.id}"></td>
+                <td><a th:href="@{/factories/{id}(id=${factory.id})}" th:text="${factory.id}"></a></td>
                 <td><span th:text="${factory.name}"></span><input type="text" class="edit-input" style="display:none" th:value="${factory.name}"></td>
                 <td><span th:text="${factory.produced}"></span><input type="number" class="edit-input" style="display:none" th:value="${factory.produced}"></td>
                 <td><span th:text="${factory.sold}"></span><input type="number" class="edit-input" style="display:none" th:value="${factory.sold}"></td>

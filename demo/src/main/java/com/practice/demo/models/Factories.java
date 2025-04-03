@@ -205,9 +205,9 @@ public class Factories {
         return firstFactory; // Повертаємо Factories
     }
 
-    public void listFactoryById(Integer id) {
+    public Factories getFactoryById(Integer id){
         SessionFactory factory;
-
+        Factories factoryById = null;
         try {
             factory = new Configuration().configure().buildSessionFactory();
         } catch (Throwable ex) {
@@ -220,28 +220,18 @@ public class Factories {
 
         try {
             tx = session.beginTransaction();
-
-            // Виконання HQL-запиту для пошуку за ID
-            Factories factoryRecord = session.get(Factories.class, id);
-
-            if (factoryRecord != null) {
-                System.out.print("| " + factoryRecord.getId());
-                System.out.print(" | Factory name: " + factoryRecord.getName());
-                System.out.print(" | Produced: " + factoryRecord.getProduced());
-                System.out.print(" | Sold: " + factoryRecord.getSold());
-                System.out.println(" | Date made: " + factoryRecord.getDate_made());
-            } else {
-                System.out.println("Фабрика з ID " + id + " не знайдена.");
-            }
-
+            factoryById  = (Factories)session.get(Factories.class, id);
+            System.out.println(factoryById.toString());
             tx.commit();
         } catch (HibernateException e) {
-            if (tx != null) tx.rollback();
+            if (tx!=null) tx.rollback();
             e.printStackTrace();
         } finally {
             session.close();
         }
-    }
+
+        return factoryById;
+    };
 
 
 

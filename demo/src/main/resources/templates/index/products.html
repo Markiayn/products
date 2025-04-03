@@ -9,6 +9,9 @@
 <body>
     <div class="background">
         <div class="table-container">
+            <div class="table-header">
+                <button class="add-btn" onclick="location.href='forms'">Add</button>
+            </div>
             <h2>Table product</h2>
             <table>
                 <thead>
@@ -25,7 +28,7 @@
                 </thead>
                 <tbody id="table-body">
                 <tr th:each="product : ${products}" th:attr="data-id=${product.id}">
-                    <td th:text="${product.id}"></td>
+                    <td> <a th:href="@{/products/{id} (id=${product.id})}" th:text="${product.id}"></a> </td>
                     <td><span th:text="${product.product_name}"></span><input type="text" class="edit-input" style="display:none" th:value="${product.product_name}"></td>
                     <td><span th:text="${product.product_code}"></span><input type="number" class="edit-input" style="display:none" th:value="${product.product_code}"></td>
                     <td><span th:text="${product.cost_price}"></span><input type="number" class="edit-input" style="display:none" th:value="${product.cost_price}"></td>

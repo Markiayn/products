@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -51,11 +52,20 @@ public class FactoriesController {
         return "index/factories";
     }
 
-    @GetMapping("/shows")
-    public String getFactoiresShowsView(Model model) {
+    @GetMapping("/{id}")
+    public String getFactoriesShowsView(@PathVariable Integer id, Model model, RedirectAttributes redirectAttributes) {
         Factories factories = new Factories();
-        Factories firstFactory = factories.getFirstFactory();
-        model.addAttribute("factory", firstFactory); // Передаємо продукт, а не рядок
+        Factories factory = factories.getFactoryById(id);
+        Products products = new Products();
+        List<Products> product = products.getProductByFactoryId(id);
+
+        if (factory == null) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Фабрика з ID " + id + " не знайдена.");
+            return "redirect:/index"; // Перенаправлення на головну сторінку
+        }
+
+        model.addAttribute("products", product);
+        model.addAttribute("factory", factory);
         return "shows/factories";
     }
 

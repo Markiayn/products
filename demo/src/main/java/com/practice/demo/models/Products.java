@@ -233,6 +233,62 @@ public class Products {
         return firstProduct;
     }
 
+    public Products getProductById(Integer id){
+        SessionFactory factory;
+        Products ProductById = null;
+        try {
+            factory = new Configuration().configure().buildSessionFactory();
+        } catch (Throwable ex) {
+            System.err.println("Failed to create sessionFactory object." + ex);
+            throw new ExceptionInInitializerError(ex);
+        }
+
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            ProductById  = (Products)session.get(Products.class, id);
+            System.out.println(ProductById.toString());
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return ProductById;
+    };
+
+    public List<Products> getProductByFactoryId(Integer factories_id){
+        SessionFactory factory;
+        List<Products> ProductByFactoryId = null;
+        try {
+            factory = new Configuration().configure().buildSessionFactory();
+        } catch (Throwable ex) {
+            System.err.println("Failed to create sessionFactory object." + ex);
+            throw new ExceptionInInitializerError(ex);
+        }
+
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            return session.createQuery("FROM Products WHERE factories_id = :factoryId", Products.class)
+                    .setParameter("factoryId", factories_id)
+                    .list();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return ProductByFactoryId;
+    };
+
 
 
 
